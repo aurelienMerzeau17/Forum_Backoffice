@@ -1,0 +1,80 @@
+﻿@model IEnumerable<BackOffice.Models.MessageModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+@{
+    string connect = string.Empty;
+    if (Session["Connect"] == null)
+    {
+        connect = "Disconnect";
+    }
+    else
+    {
+
+        connect = Session["Connect"].ToString();
+
+    }
+}
+@if (/*Request.IsAuthenticated*/connect.Equals("Connect"))
+{
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+if (Model != null)
+{
+    <table class="table">
+        <tr>
+            <th>
+                Topic
+            </th>
+            <th>
+                Utilisateur
+            </th>
+            <th>
+                Date de Poste
+            </th>
+            <th>
+                ContenuMessage
+            </th>
+            <th>
+                Report
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+               <td>
+                    @Html.DisplayFor(modelItem => item.Topic_id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Utilisateur_id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DatePoste)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ContenuMessage)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Report)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { idMessage = item.Message_id }) |
+                    @Html.ActionLink("Details", "Details", new { idMessage = item.Message_id }) |
+                    @Html.ActionLink("Delete", "Delete", new { idMessage = item.Message_id })
+                </td>
+            </tr>
+        }
+
+    </table>
+}
+}
+else
+{
+    Response.Redirect("/Account/Login");
+}

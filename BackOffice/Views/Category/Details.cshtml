@@ -1,0 +1,57 @@
+﻿@using Forum.Business
+@{
+    ForumBusiness fo = new ForumBusiness();
+}
+@model BackOffice.Models.CategorieModel
+
+@{
+    ViewBag.Title = "Details";
+}
+@{
+    string connect = string.Empty;
+    if (Session["Connect"] == null)
+    {
+        connect = "Disconnect";
+    }
+    else
+    {
+
+        connect = Session["Connect"].ToString();
+
+    }
+}
+@if (/*Request.IsAuthenticated*/connect.Equals("Connect"))
+{
+<h2>Details</h2>
+
+<div>
+    <h4>CategorieModel</h4>
+    <hr />
+    <dl class="dl-horizontal">
+
+
+        <dd>
+            @{
+                Forum.Business.Data.ForumB forum = new Forum.Business.Data.ForumB();
+                forum = fo.GetForum(Convert.ToInt32(Model.Forum_id));
+            }
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Nom)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nom)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Back to List", "Index")
+</p>
+}
+else
+{
+    Response.Redirect("/Account/Login");
+}

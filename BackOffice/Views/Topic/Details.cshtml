@@ -1,0 +1,85 @@
+﻿@using Forum.Business
+@{
+    CategorieBusiness cat = new CategorieBusiness();
+}
+
+@model BackOffice.Models.TopicModel
+
+@{
+    ViewBag.Title = "Details";
+}
+@{
+    string connect = string.Empty;
+    if (Session["Connect"] == null)
+    {
+        connect = "Disconnect";
+    }
+    else
+    {
+
+        connect = Session["Connect"].ToString();
+
+    }
+}
+@if (/*Request.IsAuthenticated*/connect.Equals("Connect"))
+{
+<h2>Details</h2>
+
+<div>
+    <h4>TopicModel</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        
+        <dt>
+            Catégorie
+        </dt>
+
+        <dd>
+           @{
+               Forum.Business.Data.CategorieB categorie = cat.getCategorie(Convert.ToInt32(Model.Sujet_id));
+        }
+        @Html.DisplayName(categorie.Nom)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Nom)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nom)
+        </dd>
+
+        <dt>
+            Description du Topic
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DescriptifTopic)
+        </dd>
+
+        <dt>
+            Date de Creation
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DateCreation)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Resolu)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Resolu)
+        </dd>
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
+}
+else
+{
+    Response.Redirect("/Account/Login");
+}

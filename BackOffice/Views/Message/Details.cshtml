@@ -1,0 +1,67 @@
+﻿@using Forum.Business
+@{
+    TopicBusiness top = new TopicBusiness(); 
+}
+
+@model BackOffice.Models.MessageModel
+
+@{
+    ViewBag.Title = "Details";
+}
+@{
+    string connect = string.Empty;
+    if (Session["Connect"] == null)
+    {
+        connect = "Disconnect";
+    }
+    else
+    {
+
+        connect = Session["Connect"].ToString();
+
+    }
+}
+@if (/*Request.IsAuthenticated*/connect.Equals("Connect"))
+{
+<h2>Details</h2>
+
+<div>
+    <h4>MessageModel</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Topic
+        </dt>
+        <dd>
+            @{
+                Forum.Business.Data.TopicB topic = top.GetTopic(Convert.ToInt32(Model.Topic_id));
+            }
+            @Html.DisplayName(topic.Nom)
+        </dd>
+
+        <dt>
+            Date de Poste
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DatePoste)
+        </dd>
+
+        <dt>
+            Contenu
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ContenuMessage)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Back to List", "Index")
+</p>
+}
+else
+{
+    Response.Redirect("/Account/Login");
+}

@@ -1,0 +1,28 @@
+﻿@using Microsoft.AspNet.Identity
+
+@{
+    string connect = string.Empty;
+    if (Session["Connect"] == null)
+    {
+        connect = "Disconnect";
+    }
+    else
+    {
+
+        connect = Session["Connect"].ToString();
+
+    }
+}
+@if (/*Request.IsAuthenticated*/connect.Equals("Connect"))
+{
+    
+   @Html.Label("Bonjour admin " + User.Identity.GetUserName() + "!", htmlAttributes: new { title = "Manage" })
+   @Html.ActionLink("Se Déconnecter", "LogOff", "Account")        
+    
+}
+else
+{
+    <ul class="nav navbar-nav navbar-right">
+        <li>@Html.ActionLink("Se connecter", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+    </ul>
+}

@@ -1,0 +1,57 @@
+﻿@model IEnumerable<BackOffice.Models.ForumModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+@{
+    string connect = string.Empty;
+    if (Session["Connect"] == null)
+    {
+        connect = "Disconnect";
+    }
+    else
+    {
+
+        connect = Session["Connect"].ToString();
+
+    }
+}
+@if (/*Request.IsAuthenticated*/connect.Equals("Connect"))
+{
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+if (Model != null)
+{
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Nom)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nom)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { idForum = item.Forum_id }) |
+                    @Html.ActionLink("Details", "Details", new { idForum = item.Forum_id }) |
+                    @Html.ActionLink("Delete", "Delete", new { idForum = item.Forum_id }) |
+                    @Html.ActionLink("Voir les categories", "IndexByForum", "Category", new { idForum = item.Forum_id }, null)
+                </td>
+            </tr>
+        }
+
+    </table>
+}
+}
+else
+{
+    Response.Redirect("/Account/Login");
+}

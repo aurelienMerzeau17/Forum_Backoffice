@@ -1,0 +1,89 @@
+﻿@using Forum.Business
+@{
+    CategorieBusiness cat = new CategorieBusiness();
+}
+
+@model IEnumerable<BackOffice.Models.TopicModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+@{
+    string connect = string.Empty;
+    if (Session["Connect"] == null)
+    {
+        connect = "Disconnect";
+    }
+    else
+    {
+
+        connect = Session["Connect"].ToString();
+
+    }
+}
+@if (/*Request.IsAuthenticated*/connect.Equals("Connect"))
+{
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+if (Model != null)
+{
+    <table class="table">
+        <tr>
+           <th>
+                Catégorie
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Nom)
+            </th>
+            <th>
+                Description du Topic
+            </th>
+            <th>
+                Date de Creation
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Resolu)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @{
+                        Forum.Business.Data.CategorieB categorie = cat.getCategorie(Convert.ToInt32(item.Sujet_id));
+                    }
+                    @Html.DisplayName(categorie.Nom)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nom)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DescriptifTopic)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateCreation)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Resolu)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { idTopic = item.Topic_id }) |
+                    @Html.ActionLink("Details", "Details", new { idTopic = item.Topic_id }) |
+                    @Html.ActionLink("Delete", "Delete", new { idTopic = item.Topic_id }) |
+                    @Html.ActionLink("Voir les messages", "IndexByTopic", "Message", new { idTopic = item.Topic_id }, null)
+                </td>
+            </tr>
+        }
+
+    </table>
+}
+}
+else
+{
+    Response.Redirect("/Account/Login");
+}
