@@ -38,13 +38,7 @@ using (Html.BeginForm())
             </div>
         </div>
 
-        <div class="form-group">
-            @Html.Label("Utilisateur", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Utilisateur_id, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Utilisateur_id, "", new { @class = "text-danger" })
-            </div>
-        </div>
+        @Html.Hidden("UserId", 10261)
         
         @Html.Hidden("DateCrea", DateTime.Now.ToUniversalTime())          
 

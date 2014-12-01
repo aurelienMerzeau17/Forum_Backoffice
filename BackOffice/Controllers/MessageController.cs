@@ -89,8 +89,9 @@ namespace BackOffice.Controllers
 
         // POST: Message/Create
         [HttpPost]
-        public ActionResult Create(MessageModel message, DateTime DateCrea, int TopicChoice)
+        public ActionResult Create(MessageModel message, DateTime DateCrea, int TopicChoice, int UserId)
         {
+            message.Utilisateur_id = UserId;
             message.Topic_id = TopicChoice;
             message.DatePoste = DateCrea;
             try
